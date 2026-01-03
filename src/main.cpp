@@ -21,12 +21,11 @@ Square PositionToSquare(sf::Vector2i position)
     return Square(column, row);
 }
 
-
+Square clicked_square(-1, -1);
+Board board;
 
 int main()
 {
-    Square clicked_square(-1, -1);
-    Board board;
 
     auto window = sf::RenderWindow(sf::VideoMode({cfg::window_size.x, cfg::window_size.y}), "Let's play tictactoe!");
     window.setFramerateLimit(60);

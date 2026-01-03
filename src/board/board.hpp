@@ -26,7 +26,7 @@ public:
     
     bool isEmpty(int column, int row)
     {
-        squares[column][row].isEmpty();
+        return squares[column][row].isEmpty();
     }
     void setEmpty(int column, int row)
     {
@@ -35,7 +35,7 @@ public:
 
     bool isCircle(int column, int row)
     {
-        squares[column][row].isCircle();
+        return squares[column][row].isCircle();
     }
     void setCircle(int column, int row)
     {
@@ -44,7 +44,7 @@ public:
 
     bool isCross(int column, int row)
     {
-        squares[column][row].isCross();
+        return squares[column][row].isCross();
     }
     void setCross(int column, int row)
     {

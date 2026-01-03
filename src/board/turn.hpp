@@ -9,7 +9,7 @@ struct Turn
     };
 
     int turn = circle;
-    int move_counter = 0;
+    int move_counter = 1;
 
     bool forCross()
     {
