@@ -53,7 +53,7 @@ public:
     
     bool isSecured(int column, int row)
     {
-        return squares[column][row].isSecured();
+            return squares[column][row].isSecured();
     }
     void setSecured(int column, int row)
     {
