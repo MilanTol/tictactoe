@@ -2,9 +2,13 @@
 
 #include "../config.hpp"
 #include "square.hpp"
+#include "turn.hpp"
 
 class Board
 {
+public:
+    Turn turn;
+
 private:
     Square squares[cfg::grid_size.x][cfg::grid_size.y];
 
@@ -46,6 +50,64 @@ public:
     {
         squares[column][row].setCross();
     }
-
     
+    bool turnMatchesContent(int column, int row)
+    {
+        if (squares[column][row].isCircle() and turn.forCircle())
+            return true;
+
+        else if (squares[column][row].isCross() and turn.forCross())
+            return true;
+
+        else 
+            return false;
+    }
+    void setSymbol(int column, int row)
+    {
+        if (turn.forCircle())
+            setCircle(column, row);
+
+        if (turn.forCross())
+            setCross(column, row);
+
+        turn.count_move();
+    }
+
+    void playTurn(int column, int row)
+    {
+        if (squares[column][row].isEmpty())
+        {           
+            if (turn.move_counter > 0)
+            {
+                setSymbol(column, row);
+                turn.end();
+            }
+
+            else 
+            {
+                setSymbol(column, row);
+            }
+        }
+
+        else if ( 
+            ( not squares[column][row].isEmpty()) and 
+            turn.move_counter < 1 and
+            ( not turnMatchesContent(column, row))
+        )
+        {
+            setSymbol(column, row);
+            turn.end();
+        }
+    }
+
+    void drawContent(sf::RenderWindow& window)
+    {
+        for (int column = 0; column < cfg::grid_size.x; column++)
+        {
+            for (int row = 0; row < cfg::grid_size.y; row ++)
+            {
+                squares[column][row].drawContent(window);
+            }
+        } 
+    }
 };
