@@ -19,6 +19,12 @@ public:
     int column;
     int row;
 
+    Square()
+    {
+        column = 0;
+        row = 0;
+    }
+    
     Square(int column_init, int row_init)
     {
         column = column_init;

@@ -21,11 +21,13 @@ void processEvents(sf::Window& window, Input& input)
         {
             if (keyPressed->button == sf::Mouse::Button::Left)
                 input.mouseClicked = true;
+                input.mouseReleased = false;
         }
         else if (const auto* keyReleased = event->getIf<sf::Event::MouseButtonReleased>())
         {
             if (keyReleased->button == sf::Mouse::Button::Left)
                 input.mouseReleased = true;
+                input.mouseClicked = false;
         }
     }   
 }
