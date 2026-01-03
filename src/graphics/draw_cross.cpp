@@ -35,3 +35,4 @@ void draw_cross(sf::RenderWindow& window, int column, int row)
     draw_cross(window, position);
 }
 
+

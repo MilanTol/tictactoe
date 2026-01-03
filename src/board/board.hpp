@@ -51,6 +51,31 @@ public:
         squares[column][row].setCross();
     }
     
+    bool isSecured(int column, int row)
+    {
+        return squares[column][row].isSecured();
+    }
+    void setSecured(int column, int row)
+    {
+        squares[column][row].setSecured();
+    }
+    void setUnsecured(int column, int row)
+    {
+        squares[column][row].setUnsecured();
+    }
+
+    void unsecureOpponent()
+    {
+        for (int column = 0; column < cfg::grid_size.x; column++)
+        {
+            for (int row = 0; row < cfg::grid_size.y; row ++)
+            {   
+                if (not turnMatchesContent(column, row))
+                    setUnsecured(column, row);
+            }
+        } 
+    }
+
     bool turnMatchesContent(int column, int row)
     {
         if (squares[column][row].isCircle() and turn.forCircle())
@@ -73,10 +98,14 @@ public:
         turn.count_move();
     }
 
+
+
     void playTurn(int column, int row)
     {
         if (squares[column][row].isEmpty())
-        {           
+        {       
+            unsecureOpponent();
+               
             if (turn.move_counter > 0)
             {
                 setSymbol(column, row);
@@ -92,10 +121,12 @@ public:
         else if ( 
             ( not squares[column][row].isEmpty()) and 
             turn.move_counter < 1 and
-            ( not turnMatchesContent(column, row))
+            ( not turnMatchesContent(column, row)) and
+            (not squares[column][row].isSecured())
         )
         {
             setSymbol(column, row);
+            setSecured(column, row);
             turn.end();
         }
     }
