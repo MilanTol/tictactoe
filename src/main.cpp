@@ -28,6 +28,7 @@ int main()
     std::vector<Board> boards;
     boards.push_back(Board());
     int turns = 0;
+    int board_id = 0;
 
     auto window = sf::RenderWindow(sf::VideoMode({cfg::window_size.x, cfg::window_size.y}), "Let's play tictactoe!");
     window.setFramerateLimit(60);
@@ -36,25 +37,49 @@ int main()
     {
         processEvents(window, input);              
 
-        Board current_board = boards[turns];
-        if (input.mouseClicked) // if clicked
+        Board current_board = boards[board_id];
+
+        if (input.mouseClicked and not (board_id == turns))
+        {
+            input.mouseClicked = false;
+            board_id = turns;
+        }
+
+        else if (input.mouseClicked and board_id == turns) // if clicked
         {   
             clicked_square = PositionToSquare(sf::Mouse::getPosition(window));
             current_board.playTurn(clicked_square.column, clicked_square.row);
             boards.push_back(current_board);
             turns += 1;
+            board_id = turns;
             input.mouseClicked = false;
         }
 
-        if (input.u_pressed and turns > 0)
+        if (input.down_pressed and turns > 0)
         {   
-            input.u_pressed = false;
+            input.down_pressed = false;
 
-            std::cout << "check" << std::endl;
             current_board = boards[turns - 1];
             boards.pop_back();
-            
+
             turns -= 1;
+            board_id = turns;
+        }
+
+        if (input.left_pressed and board_id > 0)
+        {   
+            input.left_pressed = false;
+
+            board_id -= 1;
+            current_board = boards[board_id];
+        }
+
+        if (input.right_pressed and board_id < turns)
+        {    
+            input.right_pressed = false;
+
+            board_id += 1;
+            current_board = boards[board_id];
         }
 
         window.clear();

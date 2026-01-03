@@ -20,7 +20,17 @@ void processEvents(sf::Window& window, Input& input)
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
             {   
-                input.u_pressed = true;
+                input.left_pressed = true;
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+            {   
+                input.right_pressed = true;
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+            {   
+                input.down_pressed = true;
             }
         }
         else if (const auto* keyPressed = event->getIf<sf::Event::MouseButtonPressed>())
