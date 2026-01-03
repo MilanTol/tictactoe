@@ -1,6 +1,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <optional>
+#include <iostream>
 
 #include "input.hpp"
 
@@ -16,6 +17,11 @@ void processEvents(sf::Window& window, Input& input)
         {
             if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                 window.close();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+            {   
+                input.u_pressed = true;
+            }
         }
         else if (const auto* keyPressed = event->getIf<sf::Event::MouseButtonPressed>())
         {
