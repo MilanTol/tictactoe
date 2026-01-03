@@ -21,14 +21,12 @@ Square PositionToSquare(sf::Vector2i position)
     return Square(column, row);
 }
 
-bool mouseClickedInPast = false;
+
 
 int main()
 {
     Square clicked_square(-1, -1);
-
-    std::vector<Board> boards;
-    boards.push_back(Board());
+    Board board;
 
     auto window = sf::RenderWindow(sf::VideoMode({cfg::window_size.x, cfg::window_size.y}), "Let's play tictactoe!");
     window.setFramerateLimit(60);
@@ -40,16 +38,14 @@ int main()
         if (input.mouseClicked) // if clicked
         {   
             clicked_square = PositionToSquare(sf::Mouse::getPosition(window));
-
-            Board board = boards[-1];
             board.playTurn(clicked_square.column, clicked_square.row);
-            boards.push_back(board);
+            input.mouseClicked = false;
         }
 
         window.clear();
         draw_grid(window);
         
-        boards[-1].drawContent(window);
+        board.drawContent(window);
 
         window.display();
     }
