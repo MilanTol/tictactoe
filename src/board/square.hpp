@@ -3,62 +3,31 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "../graphics/draw_circle.hpp"
-#include "../graphics/draw_cross.hpp"
-#include "../graphics/draw_secure.hpp"
+#include "../config.hpp"
+#include "../graphics/draw_house.hpp"
+#include "../graphics/draw_fence.hpp"
 
 struct Square
 {
-    enum State{empty = 0, cross = 1, circle = 2};
-    bool secured = false;
-
-private:
-
-    State state = empty;
-
-public:
-
-    int column;
-    int row;
-
-    Square()
-    {
-        column = 0;
-        row = 0;
-    }
+    color house = none;
+    color fence = none;
     
-    Square(int column_init, int row_init)
+    Square(): 
+        house(none),
+        fence(none)
+        {}
+
+    Square(color house_init, color fence_init): 
+        house(house_init),
+        fence(fence_init)
+        {}
+
+    void drawContent(sf::RenderWindow& window, int column, int row)
     {
-        column = column_init;
-        row = row_init;
+        if (house != none)
+            draw_house(window, house, column, row);
+
+        if (fence != none)
+            draw_fence(window, fence, column, row);
     }
-
-    bool isEmpty() {return (state == empty);}
-    void setEmpty() {state = empty;}
-
-    bool isCross() {return (state == cross);}
-    void setCross() {state = cross;}
-
-    bool isCircle() {return (state == circle);}
-    void setCircle() {state = circle;}
-
-    bool isSecured() {return secured;}
-    void setSecured() {secured = true;}
-    void setUnsecured() {secured = false;}
-
-    void drawContent(sf::RenderWindow& window)
-    {
-        if (state == empty) 
-            return;
-    
-        if (state == circle)
-            draw_circle(window, column, row);
-
-        if (secured)
-            draw_secure(window, column, row);
-            
-        if (state == cross)
-            draw_cross(window, column, row);
-    }
-
 };

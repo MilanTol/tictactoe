@@ -3,25 +3,26 @@
 
 #include "user_interface/events.hpp"
 #include "graphics/draw_grid.hpp"
-#include "graphics/draw_cross.hpp"
-#include "graphics/draw_circle.hpp"
+#include "graphics/draw_house.hpp"
+#include "graphics/draw_fence.hpp"
 
 #include "config.hpp"
+#include "columnrow.hpp"
 
 #include "board/square.hpp"
 #include "board/board.hpp"
 
 Input input;
 
-Square PositionToSquare(sf::Vector2i position)
+ColumnRow PositionToRowColumn(sf::Vector2i position)
 {
     int column = position.x / cfg::stepsize_x;
     int row = position.y / cfg::stepsize_y;
 
-    return Square(column, row);
+    return ColumnRow(column, row);
 }
 
-Square clicked_square(-1, -1);
+ColumnRow clicked_square(-1, -1);
 
 int main()
 {   
@@ -47,7 +48,7 @@ int main()
 
         else if (input.mouseClicked and board_id == turns) // if clicked
         {   
-            clicked_square = PositionToSquare(sf::Mouse::getPosition(window));
+            clicked_square = PositionToRowColumn(sf::Mouse::getPosition(window));
             current_board.playTurn(clicked_square.column, clicked_square.row);
             boards.push_back(current_board);
             turns += 1;

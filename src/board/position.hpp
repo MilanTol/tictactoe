@@ -4,22 +4,19 @@
 #include "square.hpp"
 #include "turn.hpp"
 
-class Board
+class Position
 {
 public:
     Turn turn;
-
-private:
     Square squares[cfg::grid_size.x][cfg::grid_size.y];
 
-public:
-    Board()
+    Position()
     {
         for (int column = 0; column < cfg::grid_size.x; column++)
         {
             for (int row = 0; row < cfg::grid_size.y; row ++)
             {
-                squares[column][row] = Square(column, row);
+                squares[column][row] = Square();
             }
         }
     }
@@ -98,24 +95,28 @@ public:
         turn.count_move();
     }
 
-
-
     void playTurn(int column, int row)
     {
         if (squares[column][row].isEmpty())
         {       
             unsecureOpponent();
                
-            if (turn.move_counter > 0)
-            {
-                setSymbol(column, row);
-                turn.end();
-            }
+            setSymbol(column, row);
 
-            else 
-            {
-                setSymbol(column, row);
-            }
+            if (turn.move_counter == 2)
+                turn.end();
+        }
+
+        else if ( 
+            (turnMatchesContent(column, row))
+        )
+        {
+            setSecured(column, row);
+            
+            turn.move_counter += 1;
+
+            if (turn.move_counter ==2)
+                turn.end();
         }
 
         else if ( 
